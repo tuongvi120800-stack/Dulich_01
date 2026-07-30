@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buổi 1 · 机场 Sân bay — Luyện Phản Xạ Nghe Nói (chi tiết)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracotta:#B85042;
+    --terracotta-dark:#8f3d32;
+    --sand:#E7E8D1;
+    --sage:#A7BEAE;
+    --dark:#3A2E2A;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Nunito',sans-serif; background:#FAF9F4; color:var(--dark); min-height:100vh;}
+  .app{max-width:960px; margin:0 auto; padding:20px 16px 60px;}
+  header.top{text-align:center; padding:22px 10px 18px;}
+  header.top h1{font-family:'Noto Serif SC',serif; font-size:27px; margin:0 0 4px; color:var(--dark);}
+  header.top p{margin:0; color:var(--terracotta); font-style:italic; font-weight:600;}
+
+  nav.tabs{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:22px 0 24px;}
+  nav.tabs button{border:none; background:var(--sand); color:var(--dark); padding:10px 16px; border-radius:999px; font-family:'Nunito',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; transition:.2s;}
+  nav.tabs button.active{background:var(--terracotta); color:#fff;}
+  nav.tabs button:hover{opacity:.9;}
+
+  section{display:none;}
+  section.active{display:block; animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .card-panel{background:#fff; border-radius:18px; padding:24px; box-shadow:0 2px 14px rgba(58,46,42,0.08); margin-bottom:24px;}
+  .section-title{font-family:'Noto Serif SC',serif; font-size:20px; margin:0 0 4px;}
+  .section-sub{color:#777; font-size:13px; margin:0 0 16px;}
+
+  /* Flashcards */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px;}
+  .flip-card{background:transparent; height:120px; perspective:1000px; cursor:pointer;}
+  .flip-inner{position:relative; width:100%; height:100%; transition:transform .5s; transform-style:preserve-3d;}
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-front, .flip-back{position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px; text-align:center;}
+  .flip-front{background:var(--terracotta); color:#fff;}
+  .flip-front .zh{font-family:'Noto Serif SC',serif; font-size:21px; font-weight:700;}
+  .flip-back{background:var(--sand); color:var(--dark); transform:rotateY(180deg);}
+  .flip-back .pinyin{font-style:italic; font-weight:700; font-size:12.5px;}
+  .flip-back .mean{font-size:11.5px; margin-top:4px;}
+
+  /* Fill in the blank */
+  .fib-item{border-bottom:1px solid var(--sand); padding:14px 0;}
+  .fib-item:last-child{border-bottom:none;}
+  .fib-num{display:inline-block; background:var(--terracotta); color:#fff; width:22px; height:22px; border-radius:50%; text-align:center; line-height:22px; font-size:12px; font-weight:800; margin-right:8px;}
+  .fib-sentence{font-family:'Noto Sans SC',sans-serif; font-size:16.5px; line-height:2.1; color:var(--dark);}
+  .fib-sentence select{
+    font-family:'Noto Sans SC',sans-serif; font-size:15px; font-weight:700; color:var(--terracotta);
+    border:none; border-bottom:2px solid var(--sage); background:#F6F4EA; border-radius:6px; padding:2px 6px; margin:0 3px;
+  }
+  .fib-sentence select.correct{border-bottom-color:#5B9A6F; background:#DDEEE0; color:#3d7a4f;}
+  .fib-sentence select.wrong{border-bottom-color:var(--terracotta-dark); background:#F4DADA; color:var(--terracotta-dark);}
+  .fib-vn{font-size:12.5px; color:#888; margin-top:6px; display:none;}
+  .fib-vn.show{display:block;}
+  .fib-toggle{background:none; border:none; color:var(--sage); font-weight:700; font-size:12px; cursor:pointer; margin-top:4px; padding:0;}
+
+  /* Reflex drill common */
+  .reflex-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;}
+  .stat-pill{background:var(--sage); color:var(--dark); padding:6px 14px; border-radius:999px; font-weight:700; font-size:13px;}
+  .timer-ring{width:58px; height:58px; border-radius:50%; border:5px solid var(--sand); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:18px; color:var(--terracotta); border-top-color:var(--terracotta); transition:border-color .2s;}
+  .timer-ring.danger{border-top-color:var(--terracotta-dark); color:var(--terracotta-dark); animation:pulse .5s infinite alternate;}
+  @keyframes pulse{from{transform:scale(1);} to{transform:scale(1.08);}}
+
+  .prompt-box{background:var(--sand); border-radius:16px; padding:24px; text-align:center; margin-bottom:16px; min-height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;}
+  .prompt-box .zh-line{font-family:'Noto Serif SC',serif; font-size:21px; font-weight:700;}
+  .prompt-box .vn-line{font-size:14.5px; color:var(--dark); max-width:560px;}
+  .prompt-box .diff-tag{font-size:11px; font-weight:800; color:var(--terracotta); text-transform:uppercase; letter-spacing:.5px;}
+
+  .btn{border:none; border-radius:999px; padding:11px 22px; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; cursor:pointer; transition:.15s;}
+  .btn-primary{background:var(--terracotta); color:#fff;}
+  .btn-primary:hover{background:var(--terracotta-dark);}
+  .btn-ghost{background:transparent; color:var(--terracotta); border:2px solid var(--terracotta);}
+  .btn-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:6px;}
+
+  .reveal-box{margin-top:14px; padding:16px; border-radius:12px; background:#F1F5F0; display:none; text-align:center;}
+  .reveal-box.show{display:block;}
+  .reveal-box .zh{font-family:'Noto Serif SC',serif; font-size:18px; font-weight:700; color:var(--dark);}
+  .reveal-box .vn{font-size:13px; color:#555; margin-top:4px;}
+  .reveal-box .explain{font-size:12.5px; color:var(--terracotta-dark); margin-top:8px; background:#fff; border-radius:8px; padding:8px 12px; display:inline-block;}
+
+  .progress-track{height:6px; background:var(--sand); border-radius:4px; overflow:hidden; margin-top:16px;}
+  .progress-fill{height:100%; background:var(--terracotta); width:0%; transition:width .3s;}
+
+  .end-summary{text-align:center; padding:16px;}
+  .end-summary h3{font-family:'Noto Serif SC',serif; color:var(--dark);}
+  .big-num{font-size:36px; font-weight:800; color:var(--terracotta);}
+
+  /* Roleplay */
+  .rp-line{display:flex; gap:12px; margin-bottom:14px; align-items:flex-start;}
+  .rp-avatar{width:38px; height:38px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:13px;}
+  .rp-avatar.agent{background:var(--terracotta);}
+  .rp-avatar.you{background:var(--sage);}
+  .rp-bubble{background:var(--sand); border-radius:14px; padding:12px 14px; max-width:80%;}
+  .rp-bubble.you{background:#EAF2ED;}
+  .rp-bubble .zh{font-family:'Noto Sans SC',sans-serif; font-weight:700; font-size:16px;}
+  .rp-bubble .vn{font-size:12.5px; color:#555; margin-top:2px;}
+  .speak-btn{border:none; background:var(--sage); color:var(--dark); border-radius:999px; width:30px; height:30px; font-size:14px; cursor:pointer; flex:none;}
+  .rp-scenario-picker{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+  .rp-scenario-picker button{
+    border:2px solid var(--sand); background:#fff; color:var(--dark); padding:8px 14px; border-radius:12px;
+    font-family:'Nunito',sans-serif; font-weight:700; font-size:13px; cursor:pointer; text-align:left;
+  }
+  .rp-scenario-picker button.active{border-color:var(--terracotta); background:var(--terracotta); color:#fff;}
+  .rp-controls{text-align:center; margin-top:16px;}
+  .hidden{display:none;}
+  footer.note{text-align:center; color:#8a8a8a; font-size:12px; margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <h1>机场 · Sân bay — Đặt vé &amp; Check-in</h1>
+    <p>Buổi 1 / 6 · Bản chi tiết — 30 từ vựng · điền khuyết · nghe phản xạ · tình huống</p>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="vocab" class="active">🗂 Từ vựng &amp; Điền khuyết</button>
+    <button data-tab="listen">🎧 Nghe phản xạ</button>
+    <button data-tab="situation">💬 Tình huống</button>
+    <button data-tab="roleplay">✈️ Roleplay</button>
+  </nav>
+
+  <!-- VOCAB + FILL IN BLANK -->
+  <section id="vocab" class="active">
+    <div class="card-panel">
+      <p class="section-title">🗂 30 từ vựng trọng tâm</p>
+      <p class="section-sub">Chạm vào thẻ để lật — xem pinyin và nghĩa. Bấm lại để nghe phát âm.</p>
+      <div class="grid" id="vocabGrid"></div>
+    </div>
+    <div class="card-panel">
+      <p class="section-title">✏️ Điền chỗ trống (10 câu)</p>
+      <p class="section-sub">Chọn từ đúng cho mỗi chỗ trống — mỗi câu có 2 chỗ trống, dựa trên từ vựng vừa học.</p>
+      <div id="fibList"></div>
+    </div>
+  </section>
+
+  <!-- LISTEN (paced, teacher-led) -->
+  <section id="listen">
+    <div class="card-panel">
+      <p class="section-title">🎧 Nghe phản xạ — 20 câu, độ khó tăng dần</p>
+      <p class="section-sub">Bấm 🔊 để nghe. Học sinh trả lời và giải thích ý nghĩa câu — GV bấm "Hiện đáp án" sau khi HS trả lời xong.</p>
+      <div class="reflex-header">
+        <div class="stat-pill" id="listenStat">Câu 1 / 20</div>
+      </div>
+      <div class="prompt-box" id="listenPrompt">
+        <div class="diff-tag" id="listenDiff">Mức 1</div>
+        <div class="vn-line">Bấm "Bắt đầu" để nghe câu đầu tiên.</div>
+      </div>
+      <div class="reveal-box" id="listenReveal">
+        <div class="zh" id="listenRevealZh"></div>
+        <div class="vn" id="listenRevealVn"></div>
+        <div class="explain" id="listenRevealExplain"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="listenStart">▶ Bắt đầu</button>
+        <button class="btn btn-ghost" id="listenReplay" style="display:none;">🔊 Nghe lại</button>
+        <button class="btn btn-ghost" id="listenShowAnswer" style="display:none;">Hiện đáp án &amp; giải thích</button>
+        <button class="btn btn-primary" id="listenNext" style="display:none;">Câu tiếp theo ▶</button>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="listenProgress"></div></div>
+    </div>
+  </section>
+
+  <!-- SITUATIONAL Q&A -->
+  <section id="situation">
+    <div class="card-panel">
+      <p class="section-title">💬 Trả lời câu hỏi tình huống — 10 tình huống</p>
+      <p class="section-sub">Đọc tình huống, trả lời to bằng tiếng Trung trong thời gian đếm ngược, sau đó xem gợi ý.</p>
+      <div class="reflex-header">
+        <div class="stat-pill" id="sitStat">Tình huống 1 / 10</div>
+        <div class="timer-ring" id="sitTimer">6</div>
+      </div>
+      <div class="prompt-box" id="sitPrompt">
+        <div class="diff-tag" id="sitDiff">Mức 1</div>
+        <div class="vn-line">Bấm "Bắt đầu" — đọc tình huống và trả lời ngay bằng tiếng Trung.</div>
+      </div>
+      <div class="reveal-box" id="sitReveal">
+        <div class="vn" style="font-weight:800; color:var(--terracotta-dark); margin-bottom:4px;">📝 Mẫu trả lời tham khảo</div>
+        <div class="zh" id="sitRevealZh"></div>
+        <div class="explain">Đây là một cách trả lời — em có thể diễn đạt khác miễn đúng nghĩa và ngữ pháp.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="sitStart">▶ Bắt đầu</button>
+        <button class="btn btn-primary" id="sitNext" style="display:none;">Câu tiếp theo ▶</button>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="sitProgress"></div></div>
+    </div>
+  </section>
+
+  <!-- ROLEPLAY -->
+  <section id="roleplay">
+    <div class="card-panel">
+      <p class="section-title">✈️ Roleplay tình huống sân bay</p>
+      <p class="section-sub">Chọn kịch bản, bấm 🔊 để nghe, đọc phần "Bạn" to trước khi bấm Tiếp theo.</p>
+      <div class="rp-scenario-picker" id="rpPicker"></div>
+      <div id="rpLog"></div>
+      <div class="rp-controls">
+        <button class="btn btn-primary" id="rpNext">Tiếp theo ▶</button>
+        <button class="btn btn-ghost hidden" id="rpRestart">↺ Làm lại kịch bản</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="note">Buổi 1 · HSK4 Phản xạ Nghe Nói — 旅游主题 · 90 phút / buổi</footer>
+</div>
+
+<script>
+/* ---------- Shared: TTS ---------- */
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-CN';
+  u.rate = 0.92;
+  window.speechSynthesis.speak(u);
+}
+function shuffle(arr){ return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]); }
+
+/* ---------- Tabs ---------- */
+const tabBtns = document.querySelectorAll('nav.tabs button');
+const sections = document.querySelectorAll('section');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabBtns.forEach(b=>b.classList.remove('active'));
+    sections.forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ---------- Vocab (30 words) ---------- */
+const vocab = [
+  {zh:'登机牌', py:'dēngjīpái', vn:'thẻ lên máy bay'},
+  {zh:'护照', py:'hùzhào', vn:'hộ chiếu'},
+  {zh:'行李', py:'xíngli', vn:'hành lý'},
+  {zh:'托运', py:'tuōyùn', vn:'ký gửi hành lý'},
+  {zh:'直飞', py:'zhífēi', vn:'bay thẳng'},
+  {zh:'转机', py:'zhuǎnjī', vn:'quá cảnh / transit'},
+  {zh:'误点', py:'wùdiǎn', vn:'trễ giờ, chậm chuyến'},
+  {zh:'登机口', py:'dēngjīkǒu', vn:'cổng lên máy bay'},
+  {zh:'值机柜台', py:'zhíjī guìtái', vn:'quầy làm thủ tục'},
+  {zh:'靠窗 / 靠走道', py:'kào chuāng / kào zǒudào', vn:'cạnh cửa sổ / cạnh lối đi'},
+  {zh:'安检', py:'ānjiǎn', vn:'kiểm tra an ninh'},
+  {zh:'海关', py:'hǎiguān', vn:'hải quan'},
+  {zh:'签证', py:'qiānzhèng', vn:'thị thực (visa)'},
+  {zh:'入境卡', py:'rùjìngkǎ', vn:'thẻ nhập cảnh'},
+  {zh:'出境', py:'chūjìng', vn:'xuất cảnh'},
+  {zh:'候机室', py:'hòujīshì', vn:'phòng chờ'},
+  {zh:'免税店', py:'miǎnshuìdiàn', vn:'cửa hàng miễn thuế'},
+  {zh:'登机时间', py:'dēngjī shíjiān', vn:'giờ lên máy bay'},
+  {zh:'起飞', py:'qǐfēi', vn:'cất cánh'},
+  {zh:'降落', py:'jiàngluò', vn:'hạ cánh'},
+  {zh:'航班号', py:'hángbānhào', vn:'số hiệu chuyến bay'},
+  {zh:'单程票', py:'dānchéngpiào', vn:'vé một chiều'},
+  {zh:'往返票', py:'wǎngfǎnpiào', vn:'vé khứ hồi'},
+  {zh:'手提行李', py:'shǒutí xíngli', vn:'hành lý xách tay'},
+  {zh:'超重', py:'chāozhòng', vn:'quá cân'},
+  {zh:'行李牌', py:'xínglǐpái', vn:'thẻ hành lý'},
+  {zh:'座位号', py:'zuòwèihào', vn:'số ghế'},
+  {zh:'经济舱 / 商务舱', py:'jīngjìcāng / shāngwùcāng', vn:'khoang phổ thông / thương gia'},
+  {zh:'安全带', py:'ānquándài', vn:'dây an toàn'},
+  {zh:'空姐 / 空少', py:'kōngjiě / kōngshào', vn:'tiếp viên hàng không (nữ/nam)'},
+];
+const vocabGrid = document.getElementById('vocabGrid');
+vocab.forEach(v=>{
+  const card = document.createElement('div');
+  card.className='flip-card';
+  card.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-front"><div class="zh">${v.zh}</div></div>
+      <div class="flip-back"><div class="pinyin">${v.py}</div><div class="mean">${v.vn}</div></div>
+    </div>`;
+  card.addEventListener('click', ()=>{
+    card.classList.toggle('flipped');
+    if(card.classList.contains('flipped')) speak(v.zh.split(' / ')[0]);
+  });
+  vocabGrid.appendChild(card);
+});
+
+/* ---------- Fill in the blank (10 sentences, 2 blanks each) ---------- */
+const wordPool = ['登机牌','护照','行李','托运','直飞','转机','误点','登机口','值机柜台','靠窗','靠走道',
+  '安检','海关','签证','入境卡','出境','候机室','免税店','登机时间','起飞','降落','航班号','单程票',
+  '往返票','手提行李','超重','行李牌','座位号','经济舱','商务舱','安全带','空姐','空少'];
+
+const fibData = [
+  {template:'我先到__1__出示护照，然后把行李拿去__2__，工作人员会给我登机牌。',
+   blanks:['值机柜台','托运'],
+   vn:'Mình đến quầy làm thủ tục xuất trình hộ chiếu, sau đó mang hành lý đi ký gửi, nhân viên sẽ đưa thẻ lên máy bay.'},
+  {template:'请问这班飞机是__1__还是__2__？如果要转机，大概要等多久？',
+   blanks:['直飞','转机'],
+   vn:'Chuyến bay này bay thẳng hay quá cảnh? Nếu cần transit thì phải đợi khoảng bao lâu?'},
+  {template:'广播说这班飞机__1__了，请大家先到__2__等一下，工作人员会再通知。',
+   blanks:['误点','登机口'],
+   vn:'Loa thông báo chuyến bay này bị trễ, xin mọi người chờ ở cổng lên máy bay, nhân viên sẽ thông báo lại.'},
+  {template:'过__1__的时候，护照和登机牌都要拿出来，__2__也需要单独检查。',
+   blanks:['安检','手提行李'],
+   vn:'Khi qua kiểm tra an ninh, hộ chiếu và thẻ lên máy bay đều phải lấy ra, hành lý xách tay cũng cần kiểm tra riêng.'},
+  {template:'到了目的地以后，要先去__1__检查__2__，才能正式入境。',
+   blanks:['海关','签证'],
+   vn:'Đến nơi rồi, phải qua hải quan kiểm tra visa trước, mới được nhập cảnh chính thức.'},
+  {template:'入境的时候，我先填写__1__，回国的时候，还要在机场办理__2__手续。',
+   blanks:['入境卡','出境'],
+   vn:'Khi nhập cảnh, mình điền thẻ nhập cảnh trước, lúc về nước còn phải làm thủ tục xuất cảnh ở sân bay.'},
+  {template:'还没到登机时间，我们先去__1__休息，想买礼物的话，也可以去__2__逛逛。',
+   blanks:['候机室','免税店'],
+   vn:'Chưa đến giờ lên máy bay, mình đi nghỉ ở phòng chờ trước, nếu muốn mua quà thì ghé cửa hàng miễn thuế.'},
+  {template:'飞机准时__1__，大概三个小时以后就会__2__，请大家系好安全带。',
+   blanks:['起飞','降落'],
+   vn:'Máy bay cất cánh đúng giờ, khoảng ba tiếng sau sẽ hạ cánh, xin mọi người thắt dây an toàn.'},
+  {template:'换登机牌的时候，一定要看清楚自己的__1__和__2__，免得走错登机口。',
+   blanks:['航班号','座位号'],
+   vn:'Khi đổi thẻ lên máy bay, nhất định phải xem kỹ số hiệu chuyến bay và số ghế của mình, kẻo đi nhầm cổng.'},
+  {template:'这次是__1__，所以不用担心回程的问题，只是行李有点重，可能会__2__。',
+   blanks:['往返票','超重'],
+   vn:'Lần này là vé khứ hồi nên không cần lo chuyện chiều về, chỉ là hành lý hơi nặng, có thể sẽ quá cân.'},
+];
+
+function buildOptions(correct){
+  const distractors = shuffle(wordPool.filter(w=>w!==correct)).slice(0,3);
+  return shuffle([correct, ...distractors]);
+}
+
+const fibList = document.getElementById('fibList');
+fibData.forEach((item, idx)=>{
+  const wrap = document.createElement('div');
+  wrap.className = 'fib-item';
+  const parts = item.template.split(/__\d__/);
+  let html = `<span class="fib-num">${idx+1}</span><span class="fib-sentence">${parts[0]}`;
+  item.blanks.forEach((b, bi)=>{
+    const opts = buildOptions(b);
+    html += `<select data-correct="${b}">
+      <option value="">?</option>
+      ${opts.map(o=>`<option value="${o}">${o}</option>`).join('')}
+    </select>${parts[bi+1]||''}`;
+  });
+  html += `</span><div><button class="fib-toggle">Xem nghĩa</button></div><div class="fib-vn">${item.vn}</div>`;
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('select').forEach(sel=>{
+    sel.addEventListener('change', ()=>{
+      sel.classList.remove('correct','wrong');
+      if(sel.value === sel.dataset.correct) sel.classList.add('correct');
+      else if(sel.value) sel.classList.add('wrong');
+    });
+  });
+  wrap.querySelector('.fib-toggle').addEventListener('click', function(){
+    wrap.querySelector('.fib-vn').classList.toggle('show');
+  });
+  fibList.appendChild(wrap);
+});
+
+/* ---------- Listening reflex — paced, teacher-led (20 items) ---------- */
+const listenBank = [
+  {level:1, zh:'我要登机。', vn:'Tôi muốn lên máy bay.', explain:'Câu trần thuật đơn giản: chủ ngữ + muốn + động từ.'},
+  {level:1, zh:'请出示您的护照。', vn:'Xin cho xem hộ chiếu của bạn.', explain:'Câu mệnh lệnh lịch sự với 请 + động từ.'},
+  {level:2, zh:'我的行李在哪里？', vn:'Hành lý của tôi ở đâu?', explain:'Câu hỏi nghi vấn dùng 在哪里 để hỏi vị trí.'},
+  {level:2, zh:'这班飞机几点起飞？', vn:'Chuyến bay này mấy giờ cất cánh?', explain:'Câu hỏi về thời gian với 几点.'},
+  {level:2, zh:'我要托运两件行李，可以吗？', vn:'Tôi muốn ký gửi hai kiện hành lý, được không?', explain:'Câu hỏi xin phép kết thúc bằng 可以吗.'},
+  {level:3, zh:'转机的旅客请到32号柜台办理手续。', vn:'Hành khách quá cảnh xin đến quầy 32 làm thủ tục.', explain:'Câu mệnh lệnh hướng đến đối tượng cụ thể (转机的旅客).'},
+  {level:3, zh:'因为飞机误点，所以我们要在机场等一个小时。', vn:'Vì máy bay bị trễ nên chúng tôi phải chờ ở sân bay một tiếng.', explain:'Cấu trúc nhân quả 因为…所以….'},
+  {level:4, zh:'虽然是转机，但是行李可以直接托运到目的地。', vn:'Tuy là quá cảnh nhưng hành lý có thể ký gửi thẳng đến điểm đến.', explain:'Cấu trúc nhượng bộ 虽然…但是….'},
+  {level:4, zh:'如果你的行李超重，就需要在柜台补交费用。', vn:'Nếu hành lý của bạn quá cân thì cần trả thêm phí ở quầy.', explain:'Cấu trúc điều kiện 如果…就….'},
+  {level:4, zh:'我们不但要办理登机手续，而且还要通过安检。', vn:'Chúng ta không chỉ phải làm thủ tục lên máy bay mà còn phải qua an ninh.', explain:'Cấu trúc tăng tiến 不但…而且….'},
+  {level:5, zh:'只要你提前两个小时到机场，就不会来不及登机。', vn:'Chỉ cần bạn đến sân bay sớm hai tiếng thì sẽ không lỡ giờ lên máy bay.', explain:'Cấu trúc điều kiện đủ 只要…就….'},
+  {level:5, zh:'由于航班号变更，请旅客重新确认自己的登机口。', vn:'Do số hiệu chuyến bay thay đổi, xin hành khách xác nhận lại cổng lên máy bay.', explain:'由于 (do, bởi vì) — văn phong trang trọng, dùng nhiều trong thông báo.'},
+  {level:5, zh:'无论是直飞还是转机，登机前都必须通过安全检查。', vn:'Dù là bay thẳng hay quá cảnh, trước khi lên máy bay đều phải qua kiểm tra an ninh.', explain:'Cấu trúc 无论…都… : dù thế nào cũng….'},
+  {level:6, zh:'除了护照以外，入境的时候还需要填写入境卡。', vn:'Ngoài hộ chiếu ra, khi nhập cảnh còn cần điền thẻ nhập cảnh.', explain:'Cấu trúc 除了…以外，还… : ngoài … ra, còn….'},
+  {level:6, zh:'一般来说，商务舱的乘客可以优先登机和托运行李。', vn:'Nói chung, hành khách khoang thương gia có thể lên máy bay và ký gửi hành lý trước.', explain:'一般来说 (nói chung) làm trạng ngữ mở đầu câu.'},
+  {level:7, zh:'之所以要提前办理登机手续，是因为安检和候机都需要时间。', vn:'Sở dĩ phải làm thủ tục lên máy bay sớm là vì an ninh và chờ đợi đều cần thời gian.', explain:'Cấu trúc giải thích nguyên nhân 之所以…是因为….'},
+  {level:7, zh:'就算飞机已经误点，空服员还是会尽量安排大家准时登机。', vn:'Cho dù máy bay đã trễ, tiếp viên vẫn sẽ cố gắng sắp xếp mọi người lên máy bay đúng giờ.', explain:'Cấu trúc nhượng bộ giả định 就算…还是….'},
+  {level:8, zh:'除非天气特别不好，否则这班航班很少会取消或延误。', vn:'Trừ khi thời tiết đặc biệt xấu, nếu không chuyến bay này hiếm khi bị hủy hoặc trễ.', explain:'Cấu trúc điều kiện loại trừ 除非…否则….'},
+  {level:8, zh:'随着安检流程越来越严格，旅客提前到达机场的时间也越来越长。', vn:'Cùng với việc quy trình an ninh ngày càng nghiêm ngặt, thời gian hành khách đến sân bay sớm cũng ngày càng dài.', explain:'Cấu trúc 随着…越来越… : cùng với sự việc A, B cũng thay đổi dần.'},
+  {level:9, zh:'无论旅客的目的地是哪里，只要出示有效的登机牌和证件，就可以顺利通过安检并前往登机口。', vn:'Dù điểm đến của hành khách là đâu, chỉ cần xuất trình thẻ lên máy bay và giấy tờ hợp lệ là có thể qua an ninh thuận lợi rồi đến cổng lên máy bay.', explain:'Câu phức hợp kết hợp 无论…và 只要…就…, độ dài và ngữ pháp cao nhất trong buổi.'},
+];
+
+let listenIdx = 0;
+document.getElementById('listenStart').addEventListener('click', ()=>{
+  listenIdx = 0;
+  document.getElementById('listenReplay').style.display='inline-block';
+  document.getElementById('listenStart').style.display='none';
+  runListenItem();
+});
+document.getElementById('listenReplay').addEventListener('click', ()=>{
+  if(listenBank[listenIdx]) speak(listenBank[listenIdx].zh);
+});
+document.getElementById('listenShowAnswer').addEventListener('click', ()=>{
+  const item = listenBank[listenIdx];
+  document.getElementById('listenRevealZh').textContent = item.zh;
+  document.getElementById('listenRevealVn').textContent = item.vn;
+  document.getElementById('listenRevealExplain').textContent = '💡 ' + item.explain;
+  document.getElementById('listenReveal').classList.add('show');
+  document.getElementById('listenShowAnswer').style.display='none';
+  document.getElementById('listenNext').style.display='inline-block';
+});
+document.getElementById('listenNext').addEventListener('click', ()=>{
+  listenIdx++;
+  runListenItem();
+});
+
+function runListenItem(){
+  document.getElementById('listenReveal').classList.remove('show');
+  document.getElementById('listenNext').style.display='none';
+  if(listenIdx >= listenBank.length){
+    document.getElementById('listenPrompt').innerHTML = `
+      <div class="end-summary">
+        <div class="big-num">${listenBank.length}/${listenBank.length}</div>
+        <div>đã luyện hết 20 câu nghe phản xạ. Bấm "Bắt đầu" để luyện lại.</div>
+      </div>`;
+    document.getElementById('listenReplay').style.display='none';
+    document.getElementById('listenShowAnswer').style.display='none';
+    document.getElementById('listenStart').style.display='inline-block';
+    document.getElementById('listenProgress').style.width='100%';
+    return;
+  }
+  const item = listenBank[listenIdx];
+  document.getElementById('listenStat').textContent = `Câu ${listenIdx+1} / ${listenBank.length}`;
+  document.getElementById('listenDiff').textContent = `Mức ${item.level}`;
+  document.getElementById('listenPrompt').innerHTML = `<div class="diff-tag">Mức ${item.level}</div><div class="vn-line">🔊 Đang phát — nghe và chuẩn bị trả lời + giải thích.</div>`;
+  document.getElementById('listenProgress').style.width = `${(listenIdx/listenBank.length)*100}%`;
+  document.getElementById('listenShowAnswer').style.display='inline-block';
+  speak(item.zh);
+}
+
+/* ---------- Situational Q&A (10 items, with timer + gợi ý) ---------- */
+const sitBank = [
+  {level:1, cue:'Nhân viên hỏi: "您要托运几件行李？" — bạn trả lời.', zh:'我要托运一件行李。'},
+  {level:2, cue:'Bạn muốn hỏi cổng lên máy bay ở đâu.', zh:'请问登机口在哪里？'},
+  {level:3, cue:'Nhân viên hỏi: "您是直飞还是转机？" — bạn trả lời.', zh:'我是直飞的。'},
+  {level:4, cue:'Nhân viên hỏi: "您要靠窗还是靠走道？" — bạn trả lời và cảm ơn.', zh:'我要靠窗的座位，谢谢。'},
+  {level:5, cue:'Bạn đến trễ ở quầy check-in — xin lỗi và giải thích ngắn gọn lý do.', zh:'不好意思，我来晚了，路上有点塞车。'},
+  {level:6, cue:'Bạn muốn hỏi máy bay có bị trễ không, và nếu trễ thì khoảng bao lâu.', zh:'请问飞机会误点吗？大概会晚多久？'},
+  {level:7, cue:'Nhân viên nói: "请出示您的护照。" — bạn đưa hộ chiếu và nói thêm bạn có vé khứ hồi.', zh:'这是我的护照，我这次是往返票。'},
+  {level:8, cue:'Bạn muốn hỏi hành lý xách tay được mang bao nhiêu kg, và nếu vượt thì phải làm sao.', zh:'请问手提行李可以带几公斤？如果超重的话怎么办？'},
+  {level:9, cue:'Bạn phát hiện hành lý bị thiếu một kiện — báo với nhân viên và hỏi cách xử lý.', zh:'不好意思，我的行李好像少了一件，请问应该怎么处理？'},
+  {level:10, cue:'Nhân viên báo hành lý của bạn quá cân — hãy hỏi xem có thể ký gửi thêm một kiện nhỏ hay phải trả thêm phí.', zh:'不好意思，我的行李好像超重了，请问可以另外托运一个小件，还是要补交费用？'},
+];
+
+let sitIdx = 0, sitTimerId = null, sitSecs = 6;
+document.getElementById('sitStart').addEventListener('click', ()=>{
+  sitIdx = 0;
+  document.getElementById('sitStart').style.display='none';
+  runSitItem();
+});
+document.getElementById('sitNext').addEventListener('click', ()=>{
+  sitIdx++;
+  runSitItem();
+});
+
+function runSitItem(){
+  clearInterval(sitTimerId);
+  document.getElementById('sitReveal').classList.remove('show');
+  document.getElementById('sitNext').style.display='none';
+  if(sitIdx >= sitBank.length){
+    document.getElementById('sitPrompt').innerHTML = `
+      <div class="end-summary">
+        <div class="big-num">${sitBank.length}/${sitBank.length}</div>
+        <div>đã luyện hết 10 tình huống. Bấm "Bắt đầu" để luyện lại với thứ tự mới.</div>
+      </div>`;
+    document.getElementById('sitTimer').textContent = '—';
+    document.getElementById('sitStart').style.display='inline-block';
+    document.getElementById('sitProgress').style.width='100%';
+    return;
+  }
+  const item = sitBank[sitIdx];
+  document.getElementById('sitStat').textContent = `Tình huống ${sitIdx+1} / ${sitBank.length}`;
+  document.getElementById('sitDiff').textContent = `Mức ${item.level}`;
+  document.getElementById('sitPrompt').innerHTML = `<div class="diff-tag">Mức ${item.level}</div><div class="vn-line"><b>${item.cue}</b><br>Trả lời ngay bằng tiếng Trung!</div>`;
+  document.getElementById('sitProgress').style.width = `${(sitIdx/sitBank.length)*100}%`;
+
+  sitSecs = 6;
+  const ring = document.getElementById('sitTimer');
+  ring.textContent = sitSecs; ring.classList.remove('danger');
+  sitTimerId = setInterval(()=>{
+    sitSecs--;
+    ring.textContent = sitSecs;
+    if(sitSecs<=2) ring.classList.add('danger');
+    if(sitSecs<=0){
+      clearInterval(sitTimerId);
+      revealSit(item);
+    }
+  },1000);
+}
+
+function revealSit(item){
+  document.getElementById('sitRevealZh').textContent = item.zh;
+  document.getElementById('sitReveal').classList.add('show');
+  document.getElementById('sitTimer').textContent = '✓';
+  document.getElementById('sitNext').style.display='inline-block';
+}
+
+/* ---------- Roleplay: 4 selectable scenarios ---------- */
+const rpScenarios = {
+  delay: {
+    label: '✈️ Chuyến bay bị hoãn',
+    script: [
+      {who:'agent', zh:'不好意思，跟您说一下，您的航班误点了，大概要晚一个小时。', vn:'Xin lỗi, chuyến bay của bạn bị trễ khoảng một tiếng.'},
+      {who:'you', zh:'好的，请问大概几点会登机？', vn:'Vậy khoảng mấy giờ sẽ lên máy bay?'},
+      {who:'agent', zh:'大概晚上八点半，我们会再广播通知您。', vn:'Khoảng 8h30 tối, chúng tôi sẽ thông báo lại.'},
+      {who:'you', zh:'谢谢，那我可以先去吃点东西吗？', vn:'Cảm ơn, vậy tôi có thể đi ăn gì đó trước không?'},
+      {who:'agent', zh:'当然可以，不过请留意广播，别错过登机时间。', vn:'Được chứ, nhưng nhớ chú ý loa thông báo để không lỡ giờ lên máy bay.'},
+      {who:'you', zh:'好的，我知道了，谢谢您的提醒。', vn:'Vâng, tôi hiểu rồi, cảm ơn nhắc nhở.'},
+      {who:'agent', zh:'不客气，祝您旅途愉快！', vn:'Không có gì, chúc chuyến đi vui vẻ!'},
+    ]
+  },
+  overweight: {
+    label: '🧳 Hành lý quá cân',
+    script: [
+      {who:'agent', zh:'不好意思，您的行李超重了，一共二十三公斤，超过了限额。', vn:'Xin lỗi, hành lý của bạn quá cân, tổng cộng 23kg, vượt hạn mức.'},
+      {who:'you', zh:'啊，那我需要补交多少钱？', vn:'Vậy tôi cần trả thêm bao nhiêu tiền?'},
+      {who:'agent', zh:'每超一公斤要付两百元，您超了三公斤，一共六百元。', vn:'Mỗi kg vượt phải trả 200 tệ, bạn vượt 3kg, tổng cộng 600 tệ.'},
+      {who:'you', zh:'可以把一些东西拿出来，放进手提行李吗？', vn:'Tôi có thể lấy bớt đồ ra, cho vào hành lý xách tay không?'},
+      {who:'agent', zh:'可以，不过手提行李也有重量限制，最多七公斤。', vn:'Được, nhưng hành lý xách tay cũng có giới hạn cân nặng, tối đa 7kg.'},
+      {who:'you', zh:'好，那我先拿两件衣服出来试试看。', vn:'Được, để tôi lấy hai bộ quần áo ra thử xem.'},
+      {who:'agent', zh:'好的，现在刚好符合规定了，谢谢您的配合。', vn:'Được rồi, giờ đã đúng quy định, cảm ơn sự hợp tác của bạn.'},
+    ]
+  },
+  seat: {
+    label: '💺 Đổi chỗ ngồi',
+    script: [
+      {who:'you', zh:'不好意思，请问可以帮我换一个靠窗的座位吗？', vn:'Xin lỗi, có thể đổi giúp tôi một ghế cạnh cửa sổ không?'},
+      {who:'agent', zh:'我看一下……不好意思，靠窗的座位已经满了。', vn:'Để tôi xem... xin lỗi, ghế cạnh cửa sổ đã hết.'},
+      {who:'you', zh:'那还有靠走道的座位吗？', vn:'Vậy còn ghế cạnh lối đi không?'},
+      {who:'agent', zh:'有的，三十二排的走道座位还是空的。', vn:'Có, ghế lối đi hàng 32 vẫn còn trống.'},
+      {who:'you', zh:'太好了，麻烦帮我换成那个座位。', vn:'Tuyệt quá, làm ơn đổi giúp tôi sang ghế đó.'},
+      {who:'agent', zh:'好的，已经帮您换好了，这是您的新登机牌。', vn:'Được rồi, đã đổi xong cho bạn, đây là thẻ lên máy bay mới.'},
+      {who:'you', zh:'谢谢您的帮忙。', vn:'Cảm ơn sự giúp đỡ của bạn.'},
+    ]
+  },
+  passport: {
+    label: '🛂 Hộ chiếu sắp hết hạn',
+    script: [
+      {who:'agent', zh:'不好意思，我看一下您的护照……您的护照下个月就到期了。', vn:'Xin lỗi, để tôi xem hộ chiếu của bạn... hộ chiếu của bạn tháng sau sẽ hết hạn.'},
+      {who:'you', zh:'啊？那这样可以登机吗？', vn:'Hả? Vậy vẫn lên máy bay được không?'},
+      {who:'agent', zh:'这次应该没问题，不过入境的国家可能要求护照至少还有六个月的有效期。', vn:'Lần này chắc không vấn đề gì, nhưng nước nhập cảnh có thể yêu cầu hộ chiếu còn hiệu lực ít nhất 6 tháng.'},
+      {who:'you', zh:'那我应该怎么办？', vn:'Vậy tôi nên làm thế nào?'},
+      {who:'agent', zh:'建议您回国以后尽快去申请换发新护照。', vn:'Đề nghị bạn về nước rồi nhanh chóng đi làm hộ chiếu mới.'},
+      {who:'you', zh:'好的，谢谢您的提醒，我会注意的。', vn:'Vâng, cảm ơn nhắc nhở, tôi sẽ chú ý.'},
+      {who:'agent', zh:'不客气，祝您旅途顺利！', vn:'Không có gì, chúc chuyến đi thuận lợi!'},
+    ]
+  },
+};
+
+let rpCurrent = 'delay';
+let rpIdx = 0;
+const rpLog = document.getElementById('rpLog');
+const rpPicker = document.getElementById('rpPicker');
+
+Object.keys(rpScenarios).forEach(key=>{
+  const btn = document.createElement('button');
+  btn.textContent = rpScenarios[key].label;
+  btn.dataset.key = key;
+  if(key === rpCurrent) btn.classList.add('active');
+  btn.addEventListener('click', ()=>{
+    rpCurrent = key;
+    rpIdx = 0;
+    rpLog.innerHTML = '';
+    document.querySelectorAll('#rpPicker button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('rpNext').classList.remove('hidden');
+    document.getElementById('rpRestart').classList.add('hidden');
+  });
+  rpPicker.appendChild(btn);
+});
+
+function renderRpLine(line){
+  const div = document.createElement('div');
+  div.className='rp-line';
+  const isAgent = line.who==='agent';
+  div.innerHTML = `
+    <div class="rp-avatar ${isAgent?'agent':'you'}">${isAgent?'GV':'Bạn'}</div>
+    <div class="rp-bubble ${isAgent?'':'you'}">
+      <div class="zh">${line.zh}</div>
+      <div class="vn">${line.vn}</div>
+    </div>
+    <button class="speak-btn" title="Nghe">🔊</button>`;
+  div.querySelector('.speak-btn').addEventListener('click', ()=>speak(line.zh));
+  rpLog.appendChild(div);
+  if(isAgent) speak(line.zh);
+  rpLog.scrollTop = rpLog.scrollHeight;
+}
+
+document.getElementById('rpNext').addEventListener('click', ()=>{
+  const script = rpScenarios[rpCurrent].script;
+  if(rpIdx < script.length){
+    renderRpLine(script[rpIdx]);
+    rpIdx++;
+  }
+  if(rpIdx >= script.length){
+    document.getElementById('rpNext').classList.add('hidden');
+    document.getElementById('rpRestart').classList.remove('hidden');
+  }
+});
+document.getElementById('rpRestart').addEventListener('click', ()=>{
+  rpIdx = 0; rpLog.innerHTML='';
+  document.getElementById('rpNext').classList.remove('hidden');
+  document.getElementById('rpRestart').classList.add('hidden');
+});
+</script>
+</body>
+</html>
